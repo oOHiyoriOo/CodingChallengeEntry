@@ -14,3 +14,5 @@ just invite the bot and create a channel called "free-games" where the bot has w
 5. fire events on new free games // publish free games
 6. show free games in dm per command
 7. auto install on servers.
+
+.
