@@ -8,8 +8,9 @@ just invite the bot and create a channel called "free-games" where the bot has w
 
 # plan:
 1. Basic Discord Bot
-2. Get Free Games from Epic Games
-3. implement as check
-4. fire events on new free games // publish free games
-5. show free games in dm per command
-6. auto install on servers.
+**2**. auto update.
+3. Get Free Games from Epic Games
+4. implement as check
+5. fire events on new free games // publish free games
+6. show free games in dm per command
+7. auto install on servers.
