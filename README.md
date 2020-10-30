@@ -7,7 +7,7 @@ new Storess eventually Following.
 just invite the bot and create a channel called "free-games" where the bot has write permission, thats all.
 
 # plan:
-1. Basic Discord Bot
+1. ~~Basic Discord Bot~~
 **2**. auto update.
 3. Get Free Games from Epic Games
 4. implement as check
