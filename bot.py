@@ -16,5 +16,3 @@ async def on_message(msg):
 
 
 client.run(config.token)
-
-"""Test Change for auto Uddate"""
