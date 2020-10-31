@@ -1,3 +1,4 @@
 config.py
 *.js
 *.json
+pilot.py
