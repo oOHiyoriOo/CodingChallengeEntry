@@ -17,6 +17,3 @@ just invite the bot and create a channel called "free-games" where the bot has w
 
 # src
 - [Logo](https://i.pinimg.com/originals/0b/52/37/0b5237772794fb5e080ab2925ae7d8ea.jpg)
-
-
-.........
