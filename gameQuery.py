@@ -43,13 +43,15 @@ async def on_message(msg):
 
 async def GameLobby(omsg):
     await client.wait_until_ready()
-    global Players
     global Searching
-    
+    global Running
+
     for i in range(60):
         await omsg.edit(content="Starting a game, everyone has "+str(60 -i)+" sec. to join!")
         await asyncio.sleep(1)
 
-
+    Searching = False
+    Running = True
+    
 
 client.run(config.token)
