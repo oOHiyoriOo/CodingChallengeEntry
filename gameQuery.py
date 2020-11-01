@@ -2,7 +2,7 @@ import discord
 import asyncio
 from ZeroLogger.ZeroLogger import *
 import config
-
+import random
 
 botVersion = 0.2
 
@@ -20,10 +20,11 @@ async def on_ready():
     # Setting `Playing ` status
     await client.change_presence(activity=discord.Game(name="Running on version: "+str(botVersion)))
     asyncio.sleep(5)
-    await client.change_presence(activity=discord.Game(name="THE Game."))
+    await client.change_presence(activity=discord.Game(name="THE Game."+random.choice([":3",":)",";3","<3"] ) ) )
 
 @client.event
 async def on_message(msg):
+    await client.wait_until_ready()
     if msg.channel.id == 772484220253503509:
         global Players
         global Searching
@@ -41,15 +42,13 @@ async def on_message(msg):
 
 
 async def GameLobby(omsg):
-    if client.is_ready():
-        global Players
-        global Searching
-        
-        for i in range(60):
-            await omsg.edit("Starting a game, everyone has "+str(60 -i)+" sec. to join!")
+    await client.wait_until_ready()
+    global Players
+    global Searching
+    
+    for i in range(60):
+        await omsg.edit("Starting a game, everyone has "+str(60 -i)+" sec. to join!")
 
-    else:
-        raise Exception("Client is not ready!")
 
 
 client.run(config.token)
