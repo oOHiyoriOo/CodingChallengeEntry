@@ -47,7 +47,8 @@ async def GameLobby(omsg):
     global Searching
     
     for i in range(60):
-        await omsg.edit("Starting a game, everyone has "+str(60 -i)+" sec. to join!")
+        await omsg.edit(content="Starting a game, everyone has "+str(60 -i)+" sec. to join!")
+        await asyncio.sleep(1)
 
 
 
