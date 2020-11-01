@@ -1,10 +1,6 @@
 # CodingChallengeEntry
 
-A Bot to Notify for free games on **EPIC GAMES STORE**
-
-new Storess eventually Following.
-
-just invite the bot and create a channel called "free-games" where the bot has write permission, thats all.
+100 votes auction.
 
 # plan:
 1. ~~Basic Discord Bot~~
@@ -18,4 +14,17 @@ just invite the bot and create a channel called "free-games" where the bot has w
 # src
 - [Logo](https://i.pinimg.com/originals/0b/52/37/0b5237772794fb5e080ab2925ae7d8ea.jpg)
 
-# More changes to test.
+# Rules.
+100 votes to the winner of the auction. (Max bet)
+everyone bet has to pay the bet amount (eg Person A: 10 , Person B: 15 == Person B gets 100 (-15) + Person A has to Pay 10)
+no one knows who bet what. 
+u can stop playing but then Game Over for you.
+100 is the price
+u can bet everything (even 1)
+u can "override" your last bet
+u only have to pay your highest bet.
+
+# ideas for realization.
+embed:
+Null (All Bets Together)
+Max Bet
