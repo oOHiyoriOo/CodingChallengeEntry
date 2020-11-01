@@ -6,7 +6,7 @@ import random
 
 botVersion = 0.2
 
-intents = discord.Intents(messages=True)
+intents = discord.Intents(messages=True,guilds=True)
 
 client = discord.Client(intents=intents)
 
@@ -20,7 +20,7 @@ async def on_ready():
     # Setting `Playing ` status
     await client.change_presence(activity=discord.Game(name="Running on version: "+str(botVersion)))
     asyncio.sleep(5)
-    await client.change_presence(activity=discord.Game(name="THE Game."+random.choice([":3",":)",";3","<3"] ) ) )
+    await client.change_presence(activity=discord.Game(name="THE Game. "+random.choice([":3",":)",";3","<3"] ) ) )
 
 @client.event
 async def on_message(msg):
