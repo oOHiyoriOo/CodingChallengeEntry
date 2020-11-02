@@ -51,6 +51,19 @@ async def on_message(msg):
                 Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
             await msg.delete()
 
+
+
+        elif msg.channel.type is discord.ChannelType.private:
+            try:
+                bet = int(msg.content)
+                if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
+                    Players.update({"currentBet":bet})
+                    await msg.channel.send("Placed your bet of: "+str(bet))
+                else:
+                    await msg.channel.send("you dont have enough votes to purchase this")
+            except:
+                await msg.channel.send("Cant place a bet with value: "+str(msg.content))
+
         elif isinstance(msg.channel, discord.channel.DMChannel) and AcceptDM:
             try:
                 bet = int(msg.content)
