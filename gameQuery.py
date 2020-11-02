@@ -74,7 +74,9 @@ async def on_message(msg):
                     await msg.channel.send("you dont have enough votes to purchase this")
             except:
                 await msg.channel.send("Cant place a bet with value: "+str(msg.content))
-
+        
+        else:
+            warn(str(msg.channel.type))
 
 async def GameLobby(omsg):
     await client.wait_until_ready()
