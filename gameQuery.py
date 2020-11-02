@@ -51,6 +51,8 @@ async def on_message(msg):
 
 
 async def GameLobby(omsg):
+    await Players.truncate()
+    
     await client.wait_until_ready()
     global Searching
     global Running
