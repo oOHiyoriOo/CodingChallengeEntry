@@ -36,7 +36,10 @@ async def on_message(msg):
     global Running
     global AcceptDM
     
-    if msg.content == "*start" and not Running and not Searching:
+    if msg.author.id == client.user.id:
+        return
+        
+    elif msg.content == "*start" and not Running and not Searching:
         Players.truncate()
         Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
         omsg = await msg.channel.send("Starting a game, everyone has 60 sec. to join!")
@@ -63,16 +66,16 @@ async def on_message(msg):
         except:
             await msg.channel.send("Cant place a bet with value: "+str(msg.content))
 
-    elif isinstance(msg.channel, discord.channel.DMChannel) and AcceptDM:
-        try:
-            bet = int(msg.content)
-            if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
-                Players.update({"currentBet":bet})
-                await msg.channel.send("Placed your bet of: "+str(bet))
-            else:
-                await msg.channel.send("you dont have enough votes to purchase this")
-        except:
-            await msg.channel.send("Cant place a bet with value: "+str(msg.content))
+    # elif isinstance(msg.channel, discord.channel.DMChannel) and AcceptDM:
+    #     try:
+    #         bet = int(msg.content)
+    #         if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
+    #             Players.update({"currentBet":bet})
+    #             await msg.channel.send("Placed your bet of: "+str(bet))
+    #         else:
+    #             await msg.channel.send("you dont have enough votes to purchase this")
+    #     except:
+    #         await msg.channel.send("Cant place a bet with value: "+str(msg.content))
     
     else:
         warn(str(msg.channel.type))
