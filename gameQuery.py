@@ -67,7 +67,9 @@ async def GameLobby(omsg):
     await client.wait_until_ready()
     global Searching
     global Running
+    global AcceptDM
 
+    
     for i in range(60):
         await omsg.edit(content="Starting a game, everyone has "+str(60 -i)+" sec. to join!")
         await asyncio.sleep(1)
@@ -89,6 +91,7 @@ async def GameLobby(omsg):
 
     await msg.edit(content="",embed=embed)
     await msg.channel.send("You can now Place your bet via dm, for 60 seconds")
+    AcceptDM = True
 
 
 
