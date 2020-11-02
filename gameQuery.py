@@ -37,11 +37,14 @@ async def on_message(msg):
             Players.append(msg.author.id)
             omsg = await msg.channel.send("Starting a game, everyone has 60 sec. to join!")
             Searching = True
+            await msg.delete()
             await GameLobby(omsg)
+
 
         elif msg.content == "*join" and not Running and Searching:
             if not msg.author.id in Players:
                 Players.append(msg.author.id)
+            await msg.delete()
 
 
 
