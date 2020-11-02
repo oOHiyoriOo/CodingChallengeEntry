@@ -36,6 +36,7 @@ async def on_message(msg):
 
         
         if msg.content == "*start" and not Running and not Searching:
+            Players.truncate()
             Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
             omsg = await msg.channel.send("Starting a game, everyone has 60 sec. to join!")
             Searching = True
@@ -51,8 +52,6 @@ async def on_message(msg):
 
 
 async def GameLobby(omsg):
-    await Players.truncate()
-    
     await client.wait_until_ready()
     global Searching
     global Running
