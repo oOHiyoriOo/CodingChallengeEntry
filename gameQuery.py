@@ -107,7 +107,8 @@ async def GameLobby(omsg):
     embed.add_field(name="0", value="0", inline=True)
 
     await msg.edit(content="",embed=embed)
-    await msg.channel.send("You can now Place your bet via dm, for 60 seconds")
+    await msg.channel.send("You can now Place your bet via dm, for 60 seconds")^
+    client.loop.create_task(UpdateEmbed())
     AcceptDM = True
 
 
@@ -126,6 +127,6 @@ async def UpdateEmbed(msg):
         embed.add_field(name="\u200b", value="Price: 100 Votes", inline=True)
         embed.add_field(name="0", value=str(AllBets), inline=True)
         msg.edit(embed=embed)
-
+        await asyncio.sleep(1)
 
 client.run(config.token)
