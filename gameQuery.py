@@ -69,8 +69,8 @@ async def GameLobby(omsg):
     global Running
     global AcceptDM
 
-    
-    for i in range(60):
+
+    for i in range(10):
         await omsg.edit(content="Starting a game, everyone has "+str(60 -i)+" sec. to join!")
         await asyncio.sleep(1)
 
