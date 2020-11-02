@@ -38,7 +38,7 @@ async def on_message(msg):
     
     if msg.author.id == client.user.id:
         return
-        
+
     elif msg.content == "*start" and not Running and not Searching:
         Players.truncate()
         Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
@@ -55,7 +55,7 @@ async def on_message(msg):
 
 
 
-    elif msg.channel.type is discord.ChannelType.private:
+    elif msg.channel.type is discord.ChannelType.private and AcceptDM:
         try:
             bet = int(msg.content)
             if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
