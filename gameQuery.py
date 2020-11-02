@@ -19,6 +19,7 @@ Searching = False
 AcceptDM = False
 AllBets = 0
 MaxBet = 1
+winner = -1
 
 @client.event
 async def on_ready():
@@ -85,7 +86,7 @@ async def GameLobby(omsg):
     global Searching
     global Running
     global AcceptDM
-
+    global winner
 
     for i in range(10):
         await omsg.edit(content="Starting a game, everyone has "+str(60 -i)+" sec. to join!")
@@ -107,21 +108,28 @@ async def GameLobby(omsg):
     embed.add_field(name="0", value="0", inline=True)
 
     await msg.edit(content="",embed=embed)
-    await msg.channel.send("You can now Place your bet via dm, for 60 seconds")
+    omsg = await msg.channel.send("You can now Place your bet via dm, for 60 seconds")
     client.loop.create_task(UpdateEmbed(msg))
     AcceptDM = True
 
+    for i in range(60):
+            await omsg.edit(content="You can now Place your bet via dm, for "+str(60 -i)+" seconds")
+            await asyncio.sleep(1)
+    AcceptDM = False
+    await msg.channel.send(client.get_user(winner).name+" won this round")
 
 
 async def calc():
     while not client.is_closed() and client.is_ready() and Running and not Searching:
         global AllBets
         global MaxBet
+        global winner
         Playerobj = Players.search(query.user >= 0)
         AllBets = 0
         for Player in Playerobj:
             if int(Player['currentBet']) > MaxBet:
                 MaxBet = int(Player['currentBet'])
+                winner = Player['user']
 
             AllBets = int(AllBets) + int(Player["currentBet"])
         await asyncio.sleep(1)
@@ -130,7 +138,7 @@ async def UpdateEmbed(msg):
     while not client.is_closed() and client.is_ready() and Running and not Searching:
         embed=discord.Embed(title="Auction", description="\u200b")
         embed.add_field(name="\u200b", value="Price: 100 Votes", inline=True)
-        embed.add_field(name="Highest Bet:"+str(MaxBet), value="Overall Bets:"+str(AllBets), inline=True)
+        embed.add_field(name="Highest Bet: "+str(MaxBet), value="Overall Bets: "+str(AllBets), inline=True)
         await msg.edit(embed=embed)
         await asyncio.sleep(1)
 
