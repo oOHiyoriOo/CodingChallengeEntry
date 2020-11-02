@@ -16,6 +16,8 @@ client = discord.Client(intents=intents)
 
 Running = False
 Searching = False
+AllBets = 0
+ 
 
 @client.event
 async def on_ready():
@@ -34,7 +36,7 @@ async def on_message(msg):
 
         
         if msg.content == "*start" and not Running and not Searching:
-            Players.insert({"user":msg.author.id})
+            Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
             omsg = await msg.channel.send("Starting a game, everyone has 60 sec. to join!")
             Searching = True
             await msg.delete()
@@ -43,7 +45,7 @@ async def on_message(msg):
 
         elif msg.content == "*join" and not Running and Searching:
             if not msg.author.id in Players:
-                Players.insert({"user":msg.author.id})
+                Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
             await msg.delete()
 
 
@@ -61,8 +63,29 @@ async def GameLobby(omsg):
     Searching = False
     Running = True
     
-    for Player in Players.search(query.user >= 0):
-        print(Player)
+    MaxBet = 1
+    Playerobj = Players.search(query.user >= 0)
+    client.loop.create_task(calc()) # starting the calculation of some numbers
+    
+    msg = omsg
+    omsg = None
+
+    embed=discord.Embed(title="Auction", description="\u200b")
+    embed.add_field(name="\u200b", value="Price: 100 Votes", inline=True)
+    embed.add_field(name="Max Bet", value="All Bets", inline=True)
+
+    await msg.edit(content="",embed=embed)
+    await msg.channel.send("You can now Place your bet via dm, just msg a number")
+
+
+async def calc():
+    while not client.is_closed() and client.is_ready() and Running and not Searching:
+        global AllBets
+        Playerobj = Players.search(query.user >= 0)
+        for Player in Playerobj:
+            AllBets = int(AllBets) + int(Player["currentBet"])
+        await asyncio.sleep(1)
+        
 
 
 client.run(config.token)
