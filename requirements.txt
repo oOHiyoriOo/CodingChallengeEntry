@@ -3,3 +3,4 @@ asyncio==3.4.3
 Flask==1.1.2
 Flask-RESTful==0.3.8
 ZeroLogger==1.1.4
+tinydb==4.2.0
