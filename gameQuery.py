@@ -126,7 +126,7 @@ async def UpdateEmbed(msg):
         embed=discord.Embed(title="Auction", description="\u200b")
         embed.add_field(name="\u200b", value="Price: 100 Votes", inline=True)
         embed.add_field(name="0", value=str(AllBets), inline=True)
-        msg.edit(embed=embed)
+        await msg.edit(embed=embed)
         await asyncio.sleep(1)
 
 client.run(config.token)
