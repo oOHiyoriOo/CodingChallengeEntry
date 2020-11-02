@@ -117,6 +117,7 @@ async def GameLobby(omsg):
             await asyncio.sleep(1)
     AcceptDM = False
     await msg.channel.send(client.get_user(winner).name+" won this round")
+    Running = False
 
 
 async def calc():
