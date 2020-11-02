@@ -18,7 +18,7 @@ Running = False
 Searching = False
 AcceptDM = False
 AllBets = 0
- 
+MaxBet = 1
 
 @client.event
 async def on_ready():
@@ -95,7 +95,7 @@ async def GameLobby(omsg):
     Searching = False
     Running = True
     
-    MaxBet = 1
+
     Playerobj = Players.search(query.user >= 0)
     client.loop.create_task(calc()) # starting the calculation of some numbers
     
@@ -119,6 +119,9 @@ async def calc():
         Playerobj = Players.search(query.user >= 0)
         AllBets = 0
         for Player in Playerobj:
+            if int(Player['currentBet']) > MaxBet:
+                MaxBet = int(Player['currentBet'])
+
             AllBets = int(AllBets) + int(Player["currentBet"])
         await asyncio.sleep(1)
         
@@ -126,7 +129,7 @@ async def UpdateEmbed(msg):
     while not client.is_closed() and client.is_ready() and Running and not Searching:
         embed=discord.Embed(title="Auction", description="\u200b")
         embed.add_field(name="\u200b", value="Price: 100 Votes", inline=True)
-        embed.add_field(name="0", value=str(AllBets), inline=True)
+        embed.add_field(name=str(MaxBet), value=str(AllBets), inline=True)
         await msg.edit(embed=embed)
         await asyncio.sleep(1)
 
