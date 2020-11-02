@@ -31,52 +31,51 @@ async def on_ready():
 @client.event
 async def on_message(msg):
     await client.wait_until_ready()
-    if msg.channel.id == 772484220253503509:
 
-        global Searching
-        global Running
-        global AcceptDM
-        
-        if msg.content == "*start" and not Running and not Searching:
-            Players.truncate()
+    global Searching
+    global Running
+    global AcceptDM
+    
+    if msg.content == "*start" and not Running and not Searching:
+        Players.truncate()
+        Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
+        omsg = await msg.channel.send("Starting a game, everyone has 60 sec. to join!")
+        Searching = True
+        await msg.delete()
+        await GameLobby(omsg)
+
+
+    elif msg.content == "*join" and not Running and Searching:
+        if not msg.author.id in Players:
             Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
-            omsg = await msg.channel.send("Starting a game, everyone has 60 sec. to join!")
-            Searching = True
-            await msg.delete()
-            await GameLobby(omsg)
-
-
-        elif msg.content == "*join" and not Running and Searching:
-            if not msg.author.id in Players:
-                Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
-            await msg.delete()
+        await msg.delete()
 
 
 
-        elif msg.channel.type is discord.ChannelType.private:
-            try:
-                bet = int(msg.content)
-                if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
-                    Players.update({"currentBet":bet})
-                    await msg.channel.send("Placed your bet of: "+str(bet))
-                else:
-                    await msg.channel.send("you dont have enough votes to purchase this")
-            except:
-                await msg.channel.send("Cant place a bet with value: "+str(msg.content))
+    elif msg.channel.type is discord.ChannelType.private:
+        try:
+            bet = int(msg.content)
+            if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
+                Players.update({"currentBet":bet})
+                await msg.channel.send("Placed your bet of: "+str(bet))
+            else:
+                await msg.channel.send("you dont have enough votes to purchase this")
+        except:
+            await msg.channel.send("Cant place a bet with value: "+str(msg.content))
 
-        elif isinstance(msg.channel, discord.channel.DMChannel) and AcceptDM:
-            try:
-                bet = int(msg.content)
-                if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
-                    Players.update({"currentBet":bet})
-                    await msg.channel.send("Placed your bet of: "+str(bet))
-                else:
-                    await msg.channel.send("you dont have enough votes to purchase this")
-            except:
-                await msg.channel.send("Cant place a bet with value: "+str(msg.content))
-        
-        else:
-            warn(str(msg.channel.type))
+    elif isinstance(msg.channel, discord.channel.DMChannel) and AcceptDM:
+        try:
+            bet = int(msg.content)
+            if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
+                Players.update({"currentBet":bet})
+                await msg.channel.send("Placed your bet of: "+str(bet))
+            else:
+                await msg.channel.send("you dont have enough votes to purchase this")
+        except:
+            await msg.channel.send("Cant place a bet with value: "+str(msg.content))
+    
+    else:
+        warn(str(msg.channel.type))
 
 async def GameLobby(omsg):
     await client.wait_until_ready()
