@@ -117,6 +117,7 @@ async def calc():
     while not client.is_closed() and client.is_ready() and Running and not Searching:
         global AllBets
         Playerobj = Players.search(query.user >= 0)
+        AllBets = 0
         for Player in Playerobj:
             AllBets = int(AllBets) + int(Player["currentBet"])
         await asyncio.sleep(1)
