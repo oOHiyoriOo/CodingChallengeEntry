@@ -16,6 +16,7 @@ client = discord.Client(intents=intents)
 
 Running = False
 Searching = False
+AcceptDM = False
 AllBets = 0
  
 
@@ -33,7 +34,8 @@ async def on_message(msg):
     if msg.channel.id == 772484220253503509:
 
         global Searching
-
+        global Running
+        global AcceptDM
         
         if msg.content == "*start" and not Running and not Searching:
             Players.truncate()
@@ -49,6 +51,16 @@ async def on_message(msg):
                 Players.insert({"user":msg.author.id,"votes":1000,"currentBet":0})
             await msg.delete()
 
+        elif isinstance(msg.channel, discord.channel.DMChannel) and AcceptDM:
+            try:
+                bet = int(msg.content)
+                if bet <= int(Players.search(query.user == msg.author.id)[0]['votes']):
+                    Players.update({"currentBet":bet})
+                    await msg.channel.send("Placed your bet of: "+str(bet))
+                else:
+                    await msg.channel.send("you dont have enough votes to purchase this")
+            except:
+                await msg.channel.send("Cant place a bet with value: "+str(msg.content))
 
 
 async def GameLobby(omsg):
@@ -73,10 +85,11 @@ async def GameLobby(omsg):
 
     embed=discord.Embed(title="Auction", description="\u200b")
     embed.add_field(name="\u200b", value="Price: 100 Votes", inline=True)
-    embed.add_field(name="Max Bet", value="All Bets", inline=True)
+    embed.add_field(name="0", value="0", inline=True)
 
     await msg.edit(content="",embed=embed)
-    await msg.channel.send("You can now Place your bet via dm, just msg a number")
+    await msg.channel.send("You can now Place your bet via dm, for 60 seconds")
+
 
 
 async def calc():
@@ -87,6 +100,12 @@ async def calc():
             AllBets = int(AllBets) + int(Player["currentBet"])
         await asyncio.sleep(1)
         
+async def UpdateEmbed(msg):
+    while not client.is_closed() and client.is_ready() and Running and not Searching:
+        embed=discord.Embed(title="Auction", description="\u200b")
+        embed.add_field(name="\u200b", value="Price: 100 Votes", inline=True)
+        embed.add_field(name="0", value=str(AllBets), inline=True)
+        msg.edit(embed=embed)
 
 
 client.run(config.token)
