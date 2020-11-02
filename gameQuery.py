@@ -116,6 +116,7 @@ async def GameLobby(omsg):
 async def calc():
     while not client.is_closed() and client.is_ready() and Running and not Searching:
         global AllBets
+        global MaxBet
         Playerobj = Players.search(query.user >= 0)
         AllBets = 0
         for Player in Playerobj:
@@ -129,7 +130,7 @@ async def UpdateEmbed(msg):
     while not client.is_closed() and client.is_ready() and Running and not Searching:
         embed=discord.Embed(title="Auction", description="\u200b")
         embed.add_field(name="\u200b", value="Price: 100 Votes", inline=True)
-        embed.add_field(name=str(MaxBet), value=str(AllBets), inline=True)
+        embed.add_field(name="Highest Bet:"+str(MaxBet), value="Overall Bets:"+str(AllBets), inline=True)
         await msg.edit(embed=embed)
         await asyncio.sleep(1)
 
