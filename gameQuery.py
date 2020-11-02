@@ -34,7 +34,7 @@ async def on_message(msg):
 
         
         if msg.content == "*start" and not Running and not Searching:
-            Players.append(msg.author.id)
+            Players.insert({"user":msg.author.id})
             omsg = await msg.channel.send("Starting a game, everyone has 60 sec. to join!")
             Searching = True
             await msg.delete()
