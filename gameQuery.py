@@ -43,7 +43,7 @@ async def on_message(msg):
 
         elif msg.content == "*join" and not Running and Searching:
             if not msg.author.id in Players:
-                Players.append(msg.author.id)
+                Players.insert({"user":msg.author.id})
             await msg.delete()
 
 
